@@ -1,0 +1,16 @@
+.DS_Store
+
+# Google credentials
+.credentials/
+
+# IntelliJ files
+.idea/
+
+# Build files
+target/
+
+# Java class files
+*.class
+
+**/resources/*.properties
+**/resources/*.json
