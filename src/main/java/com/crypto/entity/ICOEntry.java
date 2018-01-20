@@ -169,26 +169,26 @@ public class ICOEntry {
     }
 
     public ICOEntry(List<Object> rowEntry, Map<String, Integer> columnIndexMap) {
-        this.graded = graded;
-        this.presale = presale;
-        this.ianInvested = ianInvested;
-        this.opinion = opinion;
-        this.ranking = ranking;
-        this.ico = ico;
-        this.rating = rating;
-        this.largestBonus = largestBonus;
-        this.idealInvestmentInUsd = idealInvestmentInUsd;
-        this.idealInvestmentInEth = idealInvestmentInEth;
-        this.idealPortfolioPercentage = idealPortfolioPercentage;
-        this.usInvestorsAllowed = usInvestorsAllowed;
-        this.presaleDate = presaleDate;
-        this.icoStartDate = icoStartDate;
-        this.icoEndDate = icoEndDate;
-        this.icoStartsIn = icoStartsIn;
-        this.icoEndsIn = icoEndsIn;
-        this.type = type;
-        this.allStarTeamRating = allStarTeamRating;
-        this.allStarAdvisorsRating = allStarAdvisorsRating;
-        this.ideaRating = ideaRating;
+//        this.graded = graded;
+//        this.presale = presale;
+//        this.ianInvested = ianInvested;
+//        this.opinion = opinion;
+//        this.ranking = ranking;
+//        this.ico = ico;
+//        this.rating = rating;
+//        this.largestBonus = largestBonus;
+//        this.idealInvestmentInUsd = idealInvestmentInUsd;
+//        this.idealInvestmentInEth = idealInvestmentInEth;
+//        this.idealPortfolioPercentage = idealPortfolioPercentage;
+//        this.usInvestorsAllowed = usInvestorsAllowed;
+//        this.presaleDate = presaleDate;
+//        this.icoStartDate = icoStartDate;
+//        this.icoEndDate = icoEndDate;
+//        this.icoStartsIn = icoStartsIn;
+//        this.icoEndsIn = icoEndsIn;
+//        this.type = type;
+//        this.allStarTeamRating = allStarTeamRating;
+//        this.allStarAdvisorsRating = allStarAdvisorsRating;
+//        this.ideaRating = ideaRating;
     }
 }

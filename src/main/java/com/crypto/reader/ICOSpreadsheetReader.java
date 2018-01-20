@@ -38,6 +38,9 @@ public class ICOSpreadsheetReader {
         this.googleSheetsService = googleSheetsService;
     }
 
+    /**
+     * Extract data from the ICO spreadsheet
+     */
     public void processSpreadsheet() {
         try {
             // Shorthand notation for retrieving all cells on a sheet
@@ -86,6 +89,11 @@ public class ICOSpreadsheetReader {
         }
     }
 
+    /**
+     * Create a mapping for each valid column to its index
+     * @param header
+     * @return
+     */
     private Map<String, Integer> generateColumnIndexMap(List<Object> header) {
         Map<String, Integer> map =
                 IntStream.range(0, header.size())
