@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -41,12 +40,7 @@ public class ICOSpreadsheetReader {
     /**
      * Extract data from the ICO spreadsheet
      */
-    public void processSpreadsheet() {
-        List<ICOEntry> entries = extractEntries();
-
-    }
-
-    private List<ICOEntry> extractEntries() {
+    public List<ICOEntry> extractEntries() {
         List<ICOEntry> entries = new ArrayList<>();
 
         try {
@@ -87,7 +81,7 @@ public class ICOSpreadsheetReader {
                         logger.info("Created map of column name to index");
                     } else {
                         ICOEntry detailedIco = new ICOEntry(entry, columnIndexMap);
-                        entry.add(detailedIco);
+                        entries.add(detailedIco);
                     }
 
                 }

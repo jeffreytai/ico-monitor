@@ -1,27 +1,15 @@
 package com.crypto;
 
-import com.crypto.authentication.GoogleSheetsAuthentication;
-import com.crypto.enums.Authentication;
-import com.crypto.reader.ICODropReader;
-import com.crypto.reader.ICOSpreadsheetReader;
-import com.google.api.services.sheets.v4.Sheets;
-
-import java.io.IOException;
+import com.crypto.orm.HibernateUtils;
+import com.crypto.processor.ICOSpreadsheetProcessor;
 
 public class Application {
 
     public static void main(String[] args) {
-        try {
-            Sheets service = GoogleSheetsAuthentication.getSheetsService(Authentication.OAUTH);
-//            ICOSpreadsheetReader reader = new ICOSpreadsheetReader(service);
-//            reader.processSpreadsheet();
+        ICOSpreadsheetProcessor processor = new ICOSpreadsheetProcessor();
+        processor.process();
 
-            ICODropReader reader = new ICODropReader();
-//            reader.extractDetails("Bluzelle");
-            reader.retrieveJsoupDocument("pundix");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
+        // Clean up existing database connections
+        HibernateUtils.shutdown();
     }
 }

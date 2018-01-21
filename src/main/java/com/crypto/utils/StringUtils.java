@@ -4,6 +4,9 @@ import java.util.Map;
 
 public class StringUtils {
 
+    /**
+     * Alias for an empty string
+     */
     private static final String EMPTY_STRING = "";
 
     /**
@@ -12,8 +15,21 @@ public class StringUtils {
      * @param value
      * @return
      */
-    public static String sanitizeStringValue(String value) {
+    public static String sanitizeAlphabeticalStringValue(String value) {
         return value.replaceAll("[^a-zA-Z]", "");
+    }
+
+    /**
+     * Remove the string "(Code Name)" from a coin's name and any suffixed non-alphabetical characters
+     * For example, "CANADA (Code Name) **" should become "CANADA"
+     * @param value
+     * @return
+     */
+    public static String sanitizeIcoCodeName(String value) {
+        String valueWithoutCodeName = value.replaceAll("\\(Code Name\\)", "");
+
+        int lastAlphabeticalCharIndex = valueWithoutCodeName.replaceAll("[^a-zA-Z]*$", "").length();
+        return valueWithoutCodeName.substring(0, lastAlphabeticalCharIndex);
     }
 
     /**

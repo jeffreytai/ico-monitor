@@ -135,10 +135,13 @@ public class ICODrop {
         for (Element detail : tokenSaleDetails) {
             String detailText = detail.text();
             String delimiter = ": ";
-            String key = detailText.substring(0, detailText.indexOf(delimiter));
-            String value = detailText.substring(detailText.indexOf(delimiter) + delimiter.length(), detailText.length());
 
-            tokenSaleInformation.put(key, value);
+            if (detailText.contains(delimiter)) {
+                String key = detailText.substring(0, detailText.indexOf(delimiter));
+                String value = detailText.substring(detailText.indexOf(delimiter) + delimiter.length(), detailText.length());
+
+                tokenSaleInformation.put(key, value);
+            }
         }
 
         String ticker = StringUtils.extractValueFromMap("Ticker", tokenSaleInformation);
