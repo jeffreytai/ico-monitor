@@ -42,6 +42,13 @@ public class ICOSpreadsheetReader {
      * Extract data from the ICO spreadsheet
      */
     public void processSpreadsheet() {
+        List<ICOEntry> entries = extractEntries();
+
+    }
+
+    private List<ICOEntry> extractEntries() {
+        List<ICOEntry> entries = new ArrayList<>();
+
         try {
             // Shorthand notation for retrieving all cells on a sheet
             List<String> ranges = new ArrayList<>();
@@ -80,6 +87,7 @@ public class ICOSpreadsheetReader {
                         logger.info("Created map of column name to index");
                     } else {
                         ICOEntry detailedIco = new ICOEntry(entry, columnIndexMap);
+                        entry.add(detailedIco);
                     }
 
                 }
@@ -87,10 +95,13 @@ public class ICOSpreadsheetReader {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
+        return entries;
     }
 
     /**
-     * Create a mapping for each valid column to its index
+     * Create a mapping for each valid column index to name
+     * Preserve the order with a LinkedHashMap
      * @param header
      * @return
      */
