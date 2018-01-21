@@ -186,7 +186,7 @@ public class ICOEntry {
             List<Map.Entry<String, Integer>> matchedFields =
                     columnIndexMap.entrySet()
                             .stream()
-                            .filter(c -> StringUtils.sanitizeStringValue(c.getKey())
+                            .filter(c -> StringUtils.sanitizeAlphabeticalStringValue(c.getKey())
                                     .toLowerCase()
                                     .equals(fieldName.toLowerCase()))
                             .collect(Collectors.toList());
@@ -231,5 +231,175 @@ public class ICOEntry {
     }
 
 
+    /**********************
+     * Getters and setters
+     **********************/
 
+    public String getGraded() {
+        return graded;
+    }
+
+    public void setGraded(String graded) {
+        this.graded = graded;
+    }
+
+    public String getPresale() {
+        return presale;
+    }
+
+    public void setPresale(String presale) {
+        this.presale = presale;
+    }
+
+    public String getIanInvested() {
+        return ianInvested;
+    }
+
+    public void setIanInvested(String ianInvested) {
+        this.ianInvested = ianInvested;
+    }
+
+    public String getIansOpinion() {
+        return iansOpinion;
+    }
+
+    public void setIansOpinion(String iansOpinion) {
+        this.iansOpinion = iansOpinion;
+    }
+
+    public Integer getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(Integer ranking) {
+        this.ranking = ranking;
+    }
+
+    public String getIco() {
+        return ico;
+    }
+
+    public void setIco(String ico) {
+        this.ico = ico;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    public String getLargestBonus() {
+        return largestBonus;
+    }
+
+    public void setLargestBonus(String largestBonus) {
+        this.largestBonus = largestBonus;
+    }
+
+    public String getIdealInvestmentUsd() {
+        return idealInvestmentUsd;
+    }
+
+    public void setIdealInvestmentUsd(String idealInvestmentUsd) {
+        this.idealInvestmentUsd = idealInvestmentUsd;
+    }
+
+    public String getIdealInvestmentEth() {
+        return idealInvestmentEth;
+    }
+
+    public void setIdealInvestmentEth(String idealInvestmentEth) {
+        this.idealInvestmentEth = idealInvestmentEth;
+    }
+
+    public String getIdealPortfolio() {
+        return idealPortfolio;
+    }
+
+    public void setIdealPortfolio(String idealPortfolio) {
+        this.idealPortfolio = idealPortfolio;
+    }
+
+    public String getUsInvestors() {
+        return usInvestors;
+    }
+
+    public void setUsInvestors(String usInvestors) {
+        this.usInvestors = usInvestors;
+    }
+
+    public String getPresaleDate() {
+        return presaleDate;
+    }
+
+    public void setPresaleDate(String presaleDate) {
+        this.presaleDate = presaleDate;
+    }
+
+    public String getIcoStartDate() {
+        return icoStartDate;
+    }
+
+    public void setIcoStartDate(String icoStartDate) {
+        this.icoStartDate = icoStartDate;
+    }
+
+    public String getIcoEndDate() {
+        return icoEndDate;
+    }
+
+    public void setIcoEndDate(String icoEndDate) {
+        this.icoEndDate = icoEndDate;
+    }
+
+    public String getIcoStartsIn() {
+        return icoStartsIn;
+    }
+
+    public void setIcoStartsIn(String icoStartsIn) {
+        this.icoStartsIn = icoStartsIn;
+    }
+
+    public String getIcoEndsIn() {
+        return icoEndsIn;
+    }
+
+    public void setIcoEndsIn(String icoEndsIn) {
+        this.icoEndsIn = icoEndsIn;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Integer getAllStarTeam() {
+        return allStarTeam;
+    }
+
+    public void setAllStarTeam(Integer allStarTeam) {
+        this.allStarTeam = allStarTeam;
+    }
+
+    public Integer getAllStarAdvisors() {
+        return allStarAdvisors;
+    }
+
+    public void setAllStarAdvisors(Integer allStarAdvisors) {
+        this.allStarAdvisors = allStarAdvisors;
+    }
+
+    public Integer getIdea() {
+        return idea;
+    }
+
+    public void setIdea(Integer idea) {
+        this.idea = idea;
+    }
 }
