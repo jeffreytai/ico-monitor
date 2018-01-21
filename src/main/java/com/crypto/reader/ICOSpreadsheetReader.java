@@ -33,8 +33,14 @@ public class ICOSpreadsheetReader {
      */
     private Sheets googleSheetsService;
 
+    /**
+     * Map of column names from spreadsheet
+     */
+    private Map<String, Integer> columnIndexMap;
+
     public ICOSpreadsheetReader(Sheets googleSheetsService) {
         this.googleSheetsService = googleSheetsService;
+        this.columnIndexMap = new HashMap<>();
     }
 
     /**
@@ -72,11 +78,10 @@ public class ICOSpreadsheetReader {
                                 .collect(Collectors.toList());
 
                 // Create a map of the column name to its index in case the spreadsheet order changes
-                Map<String, Integer> columnIndexMap = new HashMap<>();
                 boolean headerRow = true;
                 for (List<Object> entry : icoEntries) {
                     if (headerRow) {
-                        columnIndexMap = generateColumnIndexMap(entry);
+                        this.columnIndexMap = generateColumnIndexMap(entry);
                         headerRow = false;
                         logger.info("Created map of column name to index");
                     } else {
@@ -107,5 +112,13 @@ public class ICOSpreadsheetReader {
                                 (e1, e2) -> e1, LinkedHashMap::new));
 
         return map;
+    }
+
+    /***********************
+     * Getters and setters
+     ***********************/
+
+    public Map<String, Integer> getColumnIndexMap() {
+        return columnIndexMap;
     }
 }

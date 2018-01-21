@@ -48,7 +48,7 @@ public class ICODropReader {
 
         if (doc != null) {
             logger.info("Retrieving ICO drops details for {}", icoName);
-            ICODrop icoDetails = new ICODrop(icoName, doc);
+            ICODrop icoDetails = new ICODrop(doc);
 
             return icoDetails;
         }
@@ -56,9 +56,7 @@ public class ICODropReader {
         return null;
     }
 
-    // TODO: Determine how to handle coins with "Code name"
     // TODO: Handle coins that need "the" in front of the name
-
     /**
      * To handle coins that have spaces or camelcase in the name,
      * try different combinations to find valid URL
@@ -99,11 +97,11 @@ public class ICODropReader {
                         continue;
                     }
                 }
-                logger.error("Unable to retrieve ICO drops URL for {}", icoName);
             }
         } catch (IOException ex) {
             logger.error("Unable to retrieve ICO drops URL for {}", icoName);
         } finally {
+            // If the ICO detail is new, save it to the database
             if (isNewEntry) {
                 ICOInformation newEntry = new ICOInformation(
                         sanitizedIcoName,
@@ -114,6 +112,9 @@ public class ICODropReader {
                 DbUtils.saveEntity(newEntry);
             }
 
+            if (doc == null) {
+                logger.error("Unable to retrieve ICO drops URL for {}", icoName);
+            }
             return doc;
         }
     }

@@ -121,9 +121,10 @@ public class ICODrop {
 
     public ICODrop() {}
 
-    public ICODrop(String name, Document doc) {
+    public ICODrop(Document doc) {
         String url = doc.location();
 
+        String coinName = doc.select(".ico-desk .ico-main-info h3").text();
         String hypeRate = doc.select(".rating-field .rating-items .rating-item:nth-child(1) p.rate").text();
         String riskRate = doc.select(".rating-field .rating-items .rating-item:nth-child(2) p.rate").text();
         String roiRate = doc.select(".rating-field .rating-items .rating-item:nth-child(3) p.rate").text();
@@ -159,7 +160,7 @@ public class ICODrop {
         String tokenIssue = StringUtils.extractValueFromMap("Token Issue", tokenSaleInformation);
         String accepts = StringUtils.extractValueFromMap("Accepts", tokenSaleInformation);
 
-        this.name = name;
+        this.name = coinName;
         this.url = url;
         this.hypeRate = hypeRate;
         this.riskRate = riskRate;
