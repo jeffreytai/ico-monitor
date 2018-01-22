@@ -20,4 +20,5 @@ values
 ('BeeToken', '', 'https://icodrops.com/the-bee-token/', now()),
 ('PROPSProject', '', 'https://icodrops.com/props/', now()),
 ('ParetoNetwork', '', 'https://icodrops.com/pareto/', now()),
-('TON (Telegram)', '', 'https://icodrops.com/telegram-ico-ton/', now());
+('TON (Telegram)', '', 'https://icodrops.com/telegram-ico-ton/', now()),
+('WePower', 'Home Run', 'https://icodrops.com/wepower/', now());

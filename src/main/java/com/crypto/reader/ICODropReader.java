@@ -88,7 +88,6 @@ public class ICODropReader {
             isNewEntry = true;
         }
 
-        // TODO: See why second+ runs aren't going faster
         // Try the base ico name itself
         try {
             try {

@@ -4,7 +4,20 @@ import com.crypto.entity.ICODrop;
 import com.crypto.entity.ICOEntry;
 import com.crypto.utils.StringUtils;
 import com.google.api.services.sheets.v4.Sheets;
+import com.google.api.services.sheets.v4.model.AutoResizeDimensionsRequest;
+import com.google.api.services.sheets.v4.model.BatchUpdateSpreadsheetRequest;
 import com.google.api.services.sheets.v4.model.BatchUpdateValuesRequest;
+import com.google.api.services.sheets.v4.model.CellData;
+import com.google.api.services.sheets.v4.model.CellFormat;
+import com.google.api.services.sheets.v4.model.DimensionRange;
+import com.google.api.services.sheets.v4.model.GridCoordinate;
+import com.google.api.services.sheets.v4.model.GridRange;
+import com.google.api.services.sheets.v4.model.RepeatCellRequest;
+import com.google.api.services.sheets.v4.model.Request;
+import com.google.api.services.sheets.v4.model.SheetProperties;
+import com.google.api.services.sheets.v4.model.TextFormat;
+import com.google.api.services.sheets.v4.model.UpdateCellsRequest;
+import com.google.api.services.sheets.v4.model.UpdateSheetPropertiesRequest;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +29,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,7 +44,7 @@ public class ICOSpreadsheetWriter {
     /**
      * Columns for ICO Drop entries
      */
-    private static List<String> icoDropColumns;
+    private static Map<String, Boolean> icoDropColumnVisibility;
 
     /**
      * ID of ICO spreadsheet to write to
@@ -48,26 +62,26 @@ public class ICOSpreadsheetWriter {
     private Map<String, Integer> columnIndexMap;
 
     static {
-        icoDropColumns = new ArrayList<>();
-        icoDropColumns.add("URL");
-        icoDropColumns.add("Hype Rate");
-        icoDropColumns.add("Risk Rate");
-        icoDropColumns.add("ROI Rate");
-        icoDropColumns.add("Overall Score");
-        icoDropColumns.add("Ticker");
-        icoDropColumns.add("Token Type");
-        icoDropColumns.add("ICO Token Price");
-        icoDropColumns.add("Fundraising Goal");
-        icoDropColumns.add("Sold On Pre-sale");
-        icoDropColumns.add("Total Tokens");
-        icoDropColumns.add("Available for Token Sale");
-        icoDropColumns.add("Whitelist");
-        icoDropColumns.add("Know Your Customer");
-        icoDropColumns.add("Bonus for the First");
-        icoDropColumns.add("Can't Participate");
-        icoDropColumns.add("Min/Max Personal Cap");
-        icoDropColumns.add("Token Issue");
-        icoDropColumns.add("Accepts");
+        icoDropColumnVisibility = new HashMap<>();
+        icoDropColumnVisibility.put("URL", true);
+        icoDropColumnVisibility.put("Hype Rate", true);
+        icoDropColumnVisibility.put("Risk Rate", true);
+        icoDropColumnVisibility.put("ROI Rate", true);
+        icoDropColumnVisibility.put("Overall Score", true);
+        icoDropColumnVisibility.put("Ticker", true);
+        icoDropColumnVisibility.put("Token Type", true);
+        icoDropColumnVisibility.put("ICO Token Price", true);
+        icoDropColumnVisibility.put("Fundraising Goal", true);
+        icoDropColumnVisibility.put("Sold On Pre-sale", true);
+        icoDropColumnVisibility.put("Total Tokens", true);
+        icoDropColumnVisibility.put("Available for Token Sale", true);
+        icoDropColumnVisibility.put("Whitelist", true);
+        icoDropColumnVisibility.put("Know Your Customer", true);
+        icoDropColumnVisibility.put("Bonus for the First", true);
+        icoDropColumnVisibility.put("Can't Participate", true);
+        icoDropColumnVisibility.put("Min/Max Personal Cap", true);
+        icoDropColumnVisibility.put("Token Issue", true);
+        icoDropColumnVisibility.put("Accepts", true);
     }
 
     public ICOSpreadsheetWriter(Sheets googleSheetsService, Map<String, Integer> columnIndexMap) {
@@ -80,9 +94,16 @@ public class ICOSpreadsheetWriter {
      * @param icoDropList
      */
     public void processResults(List<ICODrop> icoDropList) {
+        // Pre-formatting updates
+        formatHeaderRow();
+
+        // Setup header row and rename tab
         setupSheet();
 
+        // Post ICO details to sheet
         postResults(icoDropList);
+
+        formatSheet();
     }
 
     /**
@@ -101,7 +122,7 @@ public class ICOSpreadsheetWriter {
         }
 
         // ICO Drop columns
-        for (String columnEntry : icoDropColumns) {
+        for (String columnEntry : icoDropColumnVisibility.keySet()) {
             rowData.add(columnEntry);
         }
 
@@ -166,7 +187,7 @@ public class ICOSpreadsheetWriter {
 
             // ICO Drop columns
             Field[] icoDropFields = icoDrop.getClass().getDeclaredFields();
-            for (String columnName : icoDropColumns) {
+            for (String columnName : icoDropColumnVisibility.keySet()) {
                 List<Field> matchedFields =
                         Arrays.stream(icoDropFields)
                                 .filter(f ->
@@ -210,6 +231,47 @@ public class ICOSpreadsheetWriter {
 
         try {
             googleSheetsService.spreadsheets().values().batchUpdate(this.PERSONAL_SPREADSHEET_ID, oRequest).execute();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void formatSheet() {
+        List<Request> requests = new ArrayList<>();
+
+        // Automatically resize columns
+        requests.add(new Request()
+                .setAutoResizeDimensions(new AutoResizeDimensionsRequest()
+                        .setDimensions(new DimensionRange()
+                                .setStartIndex(0)
+                                .setDimension("COLUMNS"))));
+
+        BatchUpdateSpreadsheetRequest body = new BatchUpdateSpreadsheetRequest().setRequests(requests);
+
+        try {
+            googleSheetsService.spreadsheets().batchUpdate(this.PERSONAL_SPREADSHEET_ID, body).execute();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void formatHeaderRow() {
+        List<Request> requests = new ArrayList<>();
+
+        // Bold the header row
+        requests.add(new Request()
+                .setRepeatCell(new RepeatCellRequest()
+                        .setRange(new GridRange()
+                                .setEndRowIndex(1))
+                        .setCell(new CellData()
+                                .setUserEnteredFormat(new CellFormat()
+                                        .setTextFormat(new TextFormat().setBold(true))))
+                        .setFields("*")));
+
+        BatchUpdateSpreadsheetRequest body = new BatchUpdateSpreadsheetRequest().setRequests(requests);
+
+        try {
+            googleSheetsService.spreadsheets().batchUpdate(this.PERSONAL_SPREADSHEET_ID, body).execute();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
