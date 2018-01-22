@@ -118,10 +118,15 @@ public class ICODrop {
      */
     private String accepts;
 
+    /**
+     * ICO entry entity from Balina's spreadsheet
+     */
+    private ICOEntry icoEntry;
+
 
     public ICODrop() {}
 
-    public ICODrop(Document doc) {
+    public ICODrop(Document doc, ICOEntry icoEntry) {
         String url = doc.location();
 
         String coinName = doc.select(".ico-desk .ico-main-info h3").text();
@@ -180,6 +185,8 @@ public class ICODrop {
         this.minMaxPersonalCap = minMaxPersonalCap;
         this.tokenIssue = tokenIssue;
         this.accepts = accepts;
+
+        this.icoEntry = icoEntry;
     }
 
     /**************************
@@ -344,5 +351,13 @@ public class ICODrop {
 
     public void setAccepts(String accepts) {
         this.accepts = accepts;
+    }
+
+    public ICOEntry getIcoEntry() {
+        return icoEntry;
+    }
+
+    public void setIcoEntry(ICOEntry icoEntry) {
+        this.icoEntry = icoEntry;
     }
 }

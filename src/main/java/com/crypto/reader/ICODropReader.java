@@ -1,6 +1,7 @@
 package com.crypto.reader;
 
 import com.crypto.entity.ICODrop;
+import com.crypto.entity.ICOEntry;
 import com.crypto.orm.entity.ICOInformation;
 import com.crypto.orm.repository.ICOInformationRepository;
 import com.crypto.utils.DbUtils;
@@ -22,11 +23,6 @@ public class ICODropReader {
     private static final Logger logger = LoggerFactory.getLogger(ICODropReader.class);
 
     /**
-     * Alias for an empty string
-     */
-    private static final String EMPTY_STRING = "";
-
-    /**
      * Base url for retrieving data
      */
     private final String BASE_URL = "https://icodrops.com/";
@@ -40,15 +36,16 @@ public class ICODropReader {
 
     /**
      * Pull data to create an ICO Drops entity
-     * @param icoName
+     * @param entry
      * @return
      */
-    public ICODrop extractDetails(String icoName) {
+    public ICODrop extractDetails(ICOEntry entry) {
+        String icoName = entry.getIco();
         Document doc = retrieveJsoupDocument(icoName);
 
         if (doc != null) {
             logger.info("Retrieving ICO drops details for {}", icoName);
-            ICODrop icoDetails = new ICODrop(doc);
+            ICODrop icoDetails = new ICODrop(doc, entry);
 
             return icoDetails;
         }
@@ -64,8 +61,8 @@ public class ICODropReader {
      * @return
      */
     private Document retrieveJsoupDocument(String icoName) {
-        String requestUrl = EMPTY_STRING;
-        String sanitizedIcoName = EMPTY_STRING;
+        String requestUrl = StringUtils.EMPTY_STRING;
+        String sanitizedIcoName = StringUtils.EMPTY_STRING;
         Document doc = null;
         boolean isNewEntry = false;
 
@@ -105,8 +102,8 @@ public class ICODropReader {
             if (isNewEntry) {
                 ICOInformation newEntry = new ICOInformation(
                         sanitizedIcoName,
-                        icoName.contains("(Code Name)") ? potentialIcoCodeName : EMPTY_STRING,
-                        doc != null ? requestUrl : EMPTY_STRING,
+                        icoName.contains("(Code Name)") ? potentialIcoCodeName : StringUtils.EMPTY_STRING,
+                        doc != null ? requestUrl : StringUtils.EMPTY_STRING,
                         new Date()
                 );
                 DbUtils.saveEntity(newEntry);

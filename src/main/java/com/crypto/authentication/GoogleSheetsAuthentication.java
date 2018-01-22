@@ -42,7 +42,7 @@ public class GoogleSheetsAuthentication {
     /**
      * Global instance of the scopes required for this application
      */
-    private static final List<String> SCOPES = Arrays.asList(SheetsScopes.SPREADSHEETS_READONLY);
+    private static final List<String> SCOPES = Arrays.asList(SheetsScopes.SPREADSHEETS);
 
     /**
      * Directory to store user credentials for application

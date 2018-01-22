@@ -7,7 +7,7 @@ public class StringUtils {
     /**
      * Alias for an empty string
      */
-    private static final String EMPTY_STRING = "";
+    public static final String EMPTY_STRING = "";
 
     /**
      * Remove all non-alphabetical characters from the string,
@@ -39,6 +39,16 @@ public class StringUtils {
      * @return
      */
     public static String extractValueFromMap(String key, Map<String, String> map) {
-        return map.containsKey(key) ? map.get(key) : EMPTY_STRING;
+        return map.containsKey(key) ? map.get(key) : StringUtils.EMPTY_STRING;
+    }
+
+    /**
+     * Returns if the two strings are equal if casing is ignored
+     * @param value1
+     * @param value2
+     * @return
+     */
+    public static boolean areStringsEqualIgnoreCase(String value1, String value2) {
+        return value1.toLowerCase().equals(value2.toLowerCase());
     }
 }
