@@ -5,7 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ICODrop {
@@ -136,7 +136,7 @@ public class ICODrop {
         String overallScore = doc.select(".rating-result .rating-box p.ico-rate").text();
 
         // Create a map for each row value
-        Map<String, String> tokenSaleInformation = new HashMap<>();
+        Map<String, String> tokenSaleInformation = new LinkedHashMap<>();
         Elements tokenSaleDetails = doc.select(".white-desk.ico-desk .row.list li");
         for (Element detail : tokenSaleDetails) {
             String detailText = detail.text();
