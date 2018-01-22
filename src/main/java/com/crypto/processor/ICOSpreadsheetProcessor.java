@@ -47,18 +47,12 @@ public class ICOSpreadsheetProcessor {
             ICODropReader icoDropReader = new ICODropReader();
             List<ICODrop> icoDropList = new ArrayList<>();
 
-            // TODO: Remove this (used for debugging)
-//            int iterator = 0;
             for (ICOEntry entry : entries) {
                 ICODrop icoDetails = icoDropReader.extractDetails(entry);
 
                 if (icoDetails != null) {
                     icoDropList.add(icoDetails);
                 }
-
-//                if (++iterator == 1) {
-//                    break;
-//                }
             }
 
             ICOSpreadsheetWriter writer = new ICOSpreadsheetWriter(service, columnIndexMap);

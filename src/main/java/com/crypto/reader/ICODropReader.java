@@ -64,13 +64,23 @@ public class ICODropReader {
         String requestUrl = StringUtils.EMPTY_STRING;
         String sanitizedIcoName = StringUtils.EMPTY_STRING;
         Document doc = null;
-        boolean isNewEntry = false;
+        boolean isNewEntry = true;
+
+        // First attempt to find by the name, then the code name, then add it
+        sanitizedIcoName = StringUtils.sanitizeAlphabeticalStringValue(icoName);
+        ICOInformation nameInformation = ICOInformationRepository.findByName(sanitizedIcoName);
 
         String potentialIcoCodeName = StringUtils.sanitizeIcoCodeName(icoName);
         ICOInformation codeNameInformation = ICOInformationRepository.findByCodeName(potentialIcoCodeName);
-        if (codeNameInformation != null) {
+        if (nameInformation != null) {
+            sanitizedIcoName = nameInformation.getName();
+            requestUrl = nameInformation.getUrl();
+            isNewEntry = false;
+        }
+        else if (codeNameInformation != null) {
             sanitizedIcoName = codeNameInformation.getName();
             requestUrl = codeNameInformation.getUrl();
+            isNewEntry = false;
         }
         else {
             sanitizedIcoName = StringUtils.sanitizeAlphabeticalStringValue(potentialIcoCodeName);
@@ -83,15 +93,17 @@ public class ICODropReader {
             try {
                 doc = Jsoup.connect(requestUrl).get();
             } catch (HttpStatusException ex) {
-                // Try a dash in between each character in the name
-                for (int i=1; i<sanitizedIcoName.length(); i++) {
-                    String modifiedIcoName = sanitizedIcoName.substring(0, i) + this.DASH_CHARACTER + sanitizedIcoName.substring(i, sanitizedIcoName.length());
-                    requestUrl = this.BASE_URL + modifiedIcoName + "/";
-                    try {
-                        doc = Jsoup.connect(requestUrl).get();
-                        break;
-                    } catch (HttpStatusException hex) {
-                        continue;
+                if (isNewEntry) {
+                    // Try a dash in between each character in the name
+                    for (int i=1; i<sanitizedIcoName.length(); i++) {
+                        String modifiedIcoName = sanitizedIcoName.substring(0, i) + this.DASH_CHARACTER + sanitizedIcoName.substring(i, sanitizedIcoName.length());
+                        requestUrl = this.BASE_URL + modifiedIcoName + "/";
+                        try {
+                            doc = Jsoup.connect(requestUrl).get();
+                            break;
+                        } catch (HttpStatusException hex) {
+                            continue;
+                        }
                     }
                 }
             }
