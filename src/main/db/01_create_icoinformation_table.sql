@@ -17,9 +17,7 @@ insert into IcoInformation (Name, CodeName, Url, Timestamp)
 values
 ('GoNetwork', 'CANADA', 'https://icodrops.com/gonetwork/', now()),
 ('Gems', 'Twitter', 'https://icodrops.com/gems/', now()),
-('Bee Token', '', 'https://icodrops.com/the-bee-token/', now()),
-('PROPS', '', 'https://icodrops.com/props/', now()),
-('Pareto', '', 'https://icodrops.com/pareto/', now()),
+('BeeToken', '', 'https://icodrops.com/the-bee-token/', now()),
+('PROPSProject', '', 'https://icodrops.com/props/', now()),
+('ParetoNetwork', '', 'https://icodrops.com/pareto/', now()),
 ('TON (Telegram)', '', 'https://icodrops.com/telegram-ico-ton/', now());
-
-select * from IcoInformation;

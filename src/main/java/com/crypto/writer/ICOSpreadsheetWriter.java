@@ -151,7 +151,14 @@ public class ICOSpreadsheetWriter {
                 Field matchedField = matchedFields.get(0);
                 try {
                     Object fieldValue = new PropertyDescriptor(matchedField.getName(), entry.getClass()).getReadMethod().invoke(entry);
-                    rowData.add(fieldValue);
+
+                    if (fieldValue == null) {
+                        rowData.add(StringUtils.EMPTY_STRING);
+                    }
+                    else {
+                        rowData.add(fieldValue);
+                    }
+
                 } catch (IntrospectionException | IllegalAccessException | InvocationTargetException ex) {
                     logger.error("Illegal access for ICO Entry {}", entry.getIco());
                 }
@@ -175,7 +182,13 @@ public class ICOSpreadsheetWriter {
                 Field matchedField = matchedFields.get(0);
                 try {
                     Object fieldValue = new PropertyDescriptor(matchedField.getName(), icoDrop.getClass()).getReadMethod().invoke(icoDrop);
-                    rowData.add(fieldValue);
+
+                    if (fieldValue == null) {
+                        rowData.add(StringUtils.EMPTY_STRING);
+                    }
+                    else {
+                        rowData.add(fieldValue);
+                    }
                 } catch (IntrospectionException | IllegalAccessException | InvocationTargetException ex) {
                     logger.error("Illegal access for ICO Drop {}", icoDrop.getName());
                 }
