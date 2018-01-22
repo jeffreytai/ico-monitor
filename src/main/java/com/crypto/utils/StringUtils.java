@@ -43,7 +43,7 @@ public class StringUtils {
     }
 
     /**
-     * Returns if the two strings are equal if casing is ignored
+     * Returns true if the two strings are equal if casing is ignored
      * @param value1
      * @param value2
      * @return
