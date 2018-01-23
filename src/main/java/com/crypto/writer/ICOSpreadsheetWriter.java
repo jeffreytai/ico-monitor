@@ -108,7 +108,6 @@ public class ICOSpreadsheetWriter {
         hiddenColumns = new HashSet<>();
         hiddenColumns.add("Graded");
         hiddenColumns.add("IAN INVESTED");
-        hiddenColumns.add("IAN'S OPINION");
         hiddenColumns.add("Ideal Investment (USD)");
         hiddenColumns.add("Ideal Investment (ETH)");
         hiddenColumns.add("Ideal % Portfolio");
